@@ -1,0 +1,156 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/base}"
+>
+  <head>
+    <title>Daftar - Sistem Akademik</title>
+  </head>
+  <body>
+    <!-- Container utama -->
+    <div layout:fragment="content" class="container">
+      <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-md-6 col-lg-4">
+          
+          <form
+            th:action="@{/auth/register/post}"
+            method="post"
+            th:object="${registerForm}"
+          >
+            <!-- Card Modern -->
+            <div class="card border-0 shadow-lg rounded-4 my-5">
+              <div class="card-body p-4 p-sm-5">
+                
+                <!-- Header -->
+                <div class="text-center mb-4">
+                  <img
+                    th:src="@{/assets/images/logo.png}"
+                    onerror="this.style.display='none'"
+                    alt="Logo"
+                    width="70"
+                    class="mb-3"
+                  />
+                  <h4 class="card-title fw-bold mb-1">Buat Akun Baru</h4>
+                  <p class="text-muted small">
+                    Lengkapi data diri untuk memulai
+                  </p>
+                </div>
+
+                <!-- Pesan Error Global -->
+                <div
+                  th:if="${#fields.hasGlobalErrors()}"
+                  class="alert alert-danger alert-dismissible fade show text-center small"
+                  role="alert"
+                >
+                  <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                  <th:block
+                    th:each="err : ${#fields.globalErrors()}"
+                    th:text="${err}"
+                  ></th:block>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <!-- Input Nama Lengkap -->
+                <div class="mb-3">
+                  <label for="inputName" class="form-label fw-semibold text-secondary small">Nama Lengkap</label>
+                  <div class="input-group">
+                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-person text-muted"></i></span>
+                      <input
+                        type="text"
+                        class="form-control form-control-lg fs-6 border-start-0 ps-0"
+                        id="inputName"
+                        placeholder="Nama Anda"
+                        th:field="*{name}"
+                        th:classappend="${#fields.hasErrors('name')} ? 'is-invalid'"
+                      />
+                  </div>
+                  <div
+                    th:if="${#fields.hasErrors('name')}"
+                    class="text-danger small mt-1"
+                  >
+                    <th:block
+                      th:each="err : ${#fields.errors('name')}"
+                      th:text="${err}"
+                    ></th:block>
+                  </div>
+                </div>
+
+                <!-- Input Email -->
+                <div class="mb-3">
+                  <label for="inputEmail" class="form-label fw-semibold text-secondary small">Email</label>
+                  <div class="input-group">
+                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                      <input
+                        type="email"
+                        class="form-control form-control-lg fs-6 border-start-0 ps-0"
+                        id="inputEmail"
+                        placeholder="nama@email.com"
+                        th:field="*{email}"
+                        th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"
+                      />
+                  </div>
+                  <div
+                    th:if="${#fields.hasErrors('email')}"
+                    class="text-danger small mt-1"
+                  >
+                    <th:block
+                      th:each="err : ${#fields.errors('email')}"
+                      th:text="${err}"
+                    ></th:block>
+                  </div>
+                </div>
+
+                <!-- Input Password -->
+                <div class="mb-4">
+                  <label for="inputPassword" class="form-label fw-semibold text-secondary small">Kata Sandi</label>
+                  <div class="input-group">
+                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                      <input
+                        type="password"
+                        class="form-control form-control-lg fs-6 border-start-0 ps-0"
+                        id="inputPassword"
+                        placeholder="Minimal 6 karakter"
+                        th:field="*{password}"
+                        th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'"
+                      />
+                  </div>
+                  <div
+                    th:if="${#fields.hasErrors('password')}"
+                    class="text-danger small mt-1"
+                  >
+                    <th:block
+                      th:each="err : ${#fields.errors('password')}"
+                      th:text="${err}"
+                    ></th:block>
+                  </div>
+                </div>
+
+                <!-- Tombol Daftar -->
+                <div class="d-grid gap-2 mb-4">
+                  <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
+                    Daftar
+                  </button>
+                </div>
+
+                <!-- Footer Link -->
+                <div class="text-center text-muted small">
+                  Sudah memiliki akun?
+                  <a th:href="@{/auth/login}" class="text-decoration-none fw-bold text-primary">Masuk Disini</a>
+                </div>
+
+              </div>
+            </div>
+
+            <!-- Footer Copyright -->
+            <div class="text-center text-muted small opacity-50">
+                &copy; 2025 Sistem Akademik Delcom
+            </div>
+
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Detail Mahasiswa</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body class="bg-light">
+    <div class="container mt-5">
+        <div class="card shadow mx-auto" style="max-width: 600px;">
+            <div class="card-header bg-info text-white">
+                <h4 class="mb-0">Detail Mahasiswa</h4>
+            </div>
+            <div class="card-body text-center">
+                <div class="mb-4">
+                    <img th:if="${student.profilePicture != null}" 
+                         th:src="@{'/uploads/' + ${student.profilePicture}}" 
+                         class="rounded-circle img-thumbnail" 
+                         width="150" height="150" style="object-fit: cover;">
+                    <img th:unless="${student.profilePicture != null}" 
+                         src="https://via.placeholder.com/150" 
+                         class="rounded-circle img-thumbnail">
+                </div>
+                
+                <h3 th:text="${student.name}">Nama</h3>
+                <p class="text-muted" th:text="${student.nim}">NIM</p>
+                
+                <hr>
+                
+                <div class="row text-start">
+                    <div class="col-6"><strong>Jurusan:</strong></div>
+                    <div class="col-6" th:text="${student.major}">-</div>
+                    
+                    <div class="col-6"><strong>IPK:</strong></div>
+                    <div class="col-6" th:text="${student.gpa}">0.0</div>
+                    
+                    <div class="col-6"><strong>Terdaftar Sejak:</strong></div>
+                    <div class="col-6" th:text="${#temporals.format(student.createdAt, 'dd MMM yyyy HH:mm')}">-</div>
+                    
+                    <div class="col-6"><strong>Terakhir Update:</strong></div>
+                    <div class="col-6" th:text="${#temporals.format(student.updatedAt, 'dd MMM yyyy HH:mm')}">-</div>
+                </div>
+
+                <div class="mt-4">
+                    <a href="/students" class="btn btn-secondary">Kembali</a>
+                    <a th:href="@{'/students/edit/' + ${student.id}}" class="btn btn-warning">Edit</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>

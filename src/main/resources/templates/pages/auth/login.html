@@ -1,0 +1,155 @@
+<!DOCTYPE html>
+<html
+  xmlns:th="http://www.thymeleaf.org"
+  xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+  layout:decorate="~{layouts/base}"
+>
+  <head>
+    <title>Masuk - Sistem Akademik</title>
+  </head>
+  <body>
+    <!-- Container utama dengan centering vertikal dan horizontal -->
+    <div layout:fragment="content" class="container">
+      <div class="row justify-content-center align-items-center" style="min-height: 80vh;">
+        <div class="col-md-6 col-lg-4">
+          
+          <form
+            th:action="@{/auth/login/post}"
+            method="post"
+            th:object="${loginForm}"
+          >
+            <!-- Card dengan shadow halus dan border radius -->
+            <div class="card border-0 shadow-lg rounded-4 my-5">
+              <div class="card-body p-4 p-sm-5">
+                
+                <!-- Header Logo & Judul -->
+                <div class="text-center mb-4">
+                  <!-- Pastikan file logo ada, atau ganti src dengan URL gambar online jika belum ada -->
+                  <img
+                    th:src="@{/assets/images/logo.png}"
+                    onerror="this.style.display='none'" 
+                    alt="Logo"
+                    width="70"
+                    class="mb-3"
+                  />
+                  <h4 class="card-title fw-bold mb-1">Selamat Datang</h4>
+                  <p class="text-muted small">
+                    Masuk untuk mengelola data akademik
+                  </p>
+                </div>
+
+                <!-- 1. Pesan Sukses (Muncul setelah Register) -->
+                <div th:if="${success}" class="alert alert-success alert-dismissible fade show text-center small" role="alert">
+                    <i class="bi bi-check-circle-fill me-1"></i> <span th:text="${success}"></span>
+                    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <!-- 2. Pesan Error Global (Login Gagal) -->
+                <div
+                  th:if="${#fields.hasGlobalErrors()}"
+                  class="alert alert-danger alert-dismissible fade show text-center small"
+                  role="alert"
+                >
+                  <i class="bi bi-exclamation-triangle-fill me-1"></i>
+                  <th:block
+                    th:each="err : ${#fields.globalErrors()}"
+                    th:text="${err}"
+                  ></th:block>
+                  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+                </div>
+
+                <!-- Alamat Email -->
+                <div class="mb-3">
+                  <label for="inputEmail" class="form-label fw-semibold text-secondary small">Email</label>
+                  <div class="input-group">
+                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-envelope text-muted"></i></span>
+                      <input
+                        type="email"
+                        class="form-control form-control-lg fs-6 border-start-0 ps-0"
+                        id="inputEmail"
+                        placeholder="nama@email.com"
+                        th:field="*{email}"
+                        th:classappend="${#fields.hasErrors('email')} ? 'is-invalid'"
+                        autocomplete="email"
+                      />
+                  </div>
+                  <div
+                    th:if="${#fields.hasErrors('email')}"
+                    class="text-danger small mt-1"
+                  >
+                    <th:block
+                      th:each="err : ${#fields.errors('email')}"
+                      th:text="${err}"
+                    ></th:block>
+                  </div>
+                </div>
+
+                <!-- Kata Sandi -->
+                <div class="mb-3">
+                  <div class="d-flex justify-content-between align-items-center">
+                    <label for="inputPassword" class="form-label fw-semibold text-secondary small">Kata Sandi</label>
+                  </div>
+                  <div class="input-group">
+                      <span class="input-group-text bg-light border-end-0"><i class="bi bi-lock text-muted"></i></span>
+                      <input
+                        type="password"
+                        class="form-control form-control-lg fs-6 border-start-0 ps-0"
+                        id="inputPassword"
+                        placeholder="********"
+                        th:field="*{password}"
+                        th:classappend="${#fields.hasErrors('password')} ? 'is-invalid'"
+                        autocomplete="current-password"
+                      />
+                  </div>
+                  <div
+                    th:if="${#fields.hasErrors('password')}"
+                    class="text-danger small mt-1"
+                  >
+                    <th:block
+                      th:each="err : ${#fields.errors('password')}"
+                      th:text="${err}"
+                    ></th:block>
+                  </div>
+                </div>
+
+                <!-- Remember Me -->
+                <div class="mb-4 form-check">
+                  <input
+                    type="checkbox"
+                    class="form-check-input"
+                    id="optionRememberMe"
+                    th:field="*{rememberMe}"
+                  />
+                  <label class="form-check-label text-muted small" for="optionRememberMe">
+                    Ingat saya di perangkat ini
+                  </label>
+                </div>
+
+                <!-- Tombol Masuk (Full Width) -->
+                <div class="d-grid gap-2 mb-4">
+                  <button type="submit" class="btn btn-primary btn-lg fw-bold shadow-sm">
+                    Masuk
+                  </button>
+                </div>
+
+                <!-- Footer Link -->
+                <div class="text-center text-muted small">
+                  Belum memiliki akun?
+                  <a th:href="@{/auth/register}" class="text-decoration-none fw-bold text-primary">Daftar Sekarang</a>
+                </div>
+
+              </div>
+            </div>
+            
+            <!-- Footer Copyright (Opsional) -->
+            <div class="text-center text-muted small opacity-50">
+                &copy; 2025 Sistem Akademik Delcom
+            </div>
+            
+          </form>
+
+        </div>
+      </div>
+    </div>
+  </body>
+</html>

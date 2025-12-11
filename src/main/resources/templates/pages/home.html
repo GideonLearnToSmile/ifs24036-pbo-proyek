@@ -1,0 +1,225 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard - Sistem Akademik</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Bootstrap Icons -->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.1/font/bootstrap-icons.css">
+    
+    <style>
+        /* Custom Gradients untuk Card */
+        .bg-gradient-primary-custom {
+            background: linear-gradient(45deg, #4e73df, #224abe);
+        }
+        .bg-gradient-success-custom {
+            background: linear-gradient(45deg, #1cc88a, #13855c);
+        }
+        .bg-gradient-info-custom {
+            background: linear-gradient(45deg, #36b9cc, #258391);
+        }
+        /* Efek Card Hover */
+        .card-hover:hover {
+            transform: translateY(-5px);
+            transition: all 0.3s ease;
+        }
+        /* Icon Watermark di Card */
+        .card-icon-bg {
+            position: absolute;
+            right: 15px;
+            bottom: 15px;
+            font-size: 5rem;
+            opacity: 0.15;
+            color: #fff;
+            transform: rotate(-15deg);
+        }
+    </style>
+</head>
+<body class="bg-light">
+
+    <!-- Navbar -->
+    <nav class="navbar navbar-expand-lg navbar-dark bg-primary shadow-sm mb-4">
+        <div class="container">
+            <a class="navbar-brand fw-bold" href="/">
+                <i class="bi bi-mortarboard-fill me-2"></i>Sistem Akademik
+            </a>
+            
+            <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+
+            <div class="collapse navbar-collapse" id="navbarNav">
+                <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                    <li class="nav-item">
+                        <a class="nav-link active fw-bold border-bottom border-2" href="/">Dashboard</a>
+                    </li>
+                    <li class="nav-item">
+                        <a class="nav-link" href="/students">Data Mahasiswa</a>
+                    </li>
+                </ul>
+
+                <div class="d-flex align-items-center">
+                    <div class="text-white me-3 text-end lh-1">
+                        <small class="d-block opacity-75">Selamat Datang,</small>
+                        <span class="fw-bold" th:text="${auth.name}">User</span>
+                    </div>
+                    <a href="/auth/logout" class="btn btn-danger btn-sm rounded-pill px-3">
+                        <i class="bi bi-box-arrow-right"></i> Logout
+                    </a>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <div class="container">
+        
+        <!-- Header Section -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h3 class="fw-bold text-dark mb-0">Dashboard Overview</h3>
+                <p class="text-muted small mb-0">Ringkasan data akademik Anda hari ini.</p>
+            </div>
+            <div>
+                <span class="badge bg-white text-dark border shadow-sm p-2">
+                    <i class="bi bi-calendar-event me-1"></i>
+                    <span th:text="${#temporals.format(#temporals.createNow(), 'dd MMMM yyyy')}">Tanggal</span>
+                </span>
+            </div>
+        </div>
+
+        <!-- Info Cards Row -->
+        <div class="row g-4 mb-4">
+            
+            <!-- Card 1: Total Mahasiswa -->
+            <div class="col-md-4">
+                <div class="card bg-gradient-primary-custom text-white shadow h-100 border-0 overflow-hidden card-hover">
+                    <div class="card-body position-relative p-4">
+                        <div class="d-flex justify-content-between align-items-center z-index-1">
+                            <div>
+                                <h6 class="text-uppercase opacity-75 fw-bold ls-1 mb-1">Total Mahasiswa</h6>
+                                <h1 class="display-4 fw-bold mb-0" th:text="${totalStudents}">0</h1>
+                            </div>
+                        </div>
+                        <!-- Icon Background -->
+                        <i class="bi bi-people-fill card-icon-bg"></i>
+                    </div>
+                    <div class="card-footer bg-transparent border-top border-white border-opacity-25 p-3">
+                        <a href="/students" class="text-white text-decoration-none small d-flex align-items-center justify-content-between">
+                            <span>Lihat Detail Data</span>
+                            <i class="bi bi-arrow-right"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Card 2: Statistik (Lebih Bersih) -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow h-100 card-hover">
+                    <div class="card-header bg-white border-0 pt-4 px-4 pb-0 d-flex justify-content-between align-items-center">
+                        <h6 class="fw-bold text-primary mb-0"><i class="bi bi-pie-chart-fill me-2"></i>Statistik Jurusan</h6>
+                        <a href="/students/chart" class="btn btn-sm btn-outline-primary rounded-pill px-3" style="font-size: 0.7rem;">Grafik</a>
+                    </div>
+                    <div class="card-body px-4 py-3">
+                        <ul class="list-group list-group-flush">
+                            <li th:each="stat : ${stats}" class="list-group-item border-0 px-0 d-flex justify-content-between align-items-center">
+                                <span class="text-muted small fw-semibold" th:text="${stat[0]}">Informatika</span>
+                                <span class="badge bg-primary rounded-pill bg-opacity-10 text-primary" th:text="${stat[1]}">0</span>
+                            </li>
+                            <li th:if="${stats.empty}" class="text-center text-muted py-3 small">
+                                Belum ada data statistik.
+                            </li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Card 3: Aksi Cepat -->
+            <div class="col-md-4">
+                <div class="card border-0 shadow h-100 card-hover bg-white">
+                    <div class="card-body p-4 d-flex flex-column justify-content-center text-center">
+                        <div class="mb-3">
+                            <div class="d-inline-flex align-items-center justify-content-center bg-info bg-opacity-10 text-info rounded-circle" style="width: 60px; height: 60px;">
+                                <i class="bi bi-lightning-charge-fill fs-3"></i>
+                            </div>
+                        </div>
+                        <h5 class="fw-bold">Aksi Cepat</h5>
+                        <p class="text-muted small mb-4">Kelola data mahasiswa dengan mudah.</p>
+                        
+                        <div class="d-grid gap-2">
+                            <a href="/students/create" class="btn btn-primary fw-semibold shadow-sm">
+                                <i class="bi bi-plus-circle me-1"></i> Tambah Mahasiswa
+                            </a>
+                            <a href="/students" class="btn btn-outline-secondary fw-semibold">
+                                <i class="bi bi-list-ul me-1"></i> Lihat Semua Data
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Recent Data Table -->
+        <div class="card border-0 shadow-sm rounded-3 overflow-hidden">
+            <div class="card-header bg-white py-3 px-4 d-flex justify-content-between align-items-center border-bottom">
+                <h6 class="mb-0 fw-bold text-dark">
+                    <i class="bi bi-clock-history me-2 text-warning"></i>Mahasiswa Baru Ditambahkan
+                </h6>
+                <a href="/students" class="text-decoration-none small fw-bold">Lihat Semua &rarr;</a>
+            </div>
+            <div class="card-body p-0">
+                <div class="table-responsive">
+                    <table class="table table-hover mb-0 align-middle">
+                        <thead class="bg-light text-secondary small text-uppercase">
+                            <tr>
+                                <th class="ps-4 py-3 border-0" style="width: 50px;">#</th>
+                                <th class="border-0">Nama Mahasiswa</th>
+                                <th class="border-0">NIM</th>
+                                <th class="border-0">Jurusan</th>
+                                <th class="border-0">Waktu Input</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr th:each="mhs, stat : ${recentStudents}">
+                                <td class="ps-4">
+                                    <div class="bg-light rounded-circle d-flex align-items-center justify-content-center text-secondary fw-bold" style="width: 35px; height: 35px;">
+                                        <i class="bi bi-person"></i>
+                                    </div>
+                                </td>
+                                <td>
+                                    <div class="fw-bold text-dark" th:text="${mhs.name}">Nama</div>
+                                    <small class="text-muted d-block d-md-none" th:text="${mhs.nim}">123</small>
+                                </td>
+                                <td>
+                                    <span class="badge bg-light text-dark border fw-normal font-monospace" th:text="${mhs.nim}">123</span>
+                                </td>
+                                <td th:text="${mhs.major}">Jurusan</td>
+                                <td class="text-muted small">
+                                    <i class="bi bi-calendar3 me-1"></i>
+                                    <span th:if="${mhs.createdAt != null}" 
+                                        th:text="${#temporals.format(mhs.createdAt, 'dd MMM yyyy HH:mm')}">Date</span>
+                                    <span th:unless="${mhs.createdAt != null}">-</span>
+                                </td>
+                            </tr>
+                            <tr th:if="${recentStudents.empty}">
+                                <td colspan="5" class="text-center py-5 text-muted">
+                                    <i class="bi bi-inbox fs-1 d-block mb-2 opacity-25"></i>
+                                    Belum ada aktivitas terbaru.
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Footer -->
+        <footer class="mt-5 mb-4 text-center text-muted small opacity-75">
+            <p class="mb-0">&copy; 2025 Sistem Akademik. Dibuat dengan Spring Boot & Thymeleaf.</p>
+        </footer>
+
+    </div>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html>
