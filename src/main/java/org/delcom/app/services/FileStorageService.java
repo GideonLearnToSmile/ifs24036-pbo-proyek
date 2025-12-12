@@ -65,11 +65,7 @@ public class FileStorageService {
         return Files.exists(loadFile(filename));
     }
 
-    // --- PERBAIKAN DI SINI ---
-    // Saya hapus if(originalFilename == null) karena StringUtils sudah handle itu.
-    // Hasilnya: Kode lebih bersih, dan pasti HIJAU 100% di JaCoCo.
     private String getFileExtension(String originalFilename) {
-        // StringUtils.getFilenameExtension akan return null jika inputnya null atau tidak ada ekstensi
         String ext = StringUtils.getFilenameExtension(originalFilename);
         
         if (ext != null) {

@@ -20,8 +20,8 @@ public class StudentDto {
     @NotNull(message = "Tahun Masuk tidak boleh kosong")
     private Integer entryYear;
 
-    private MultipartFile photoFile; // Untuk upload
-    private String existingPhotoPath; // Untuk display saat edit
+    private MultipartFile photoFile;
+    private String existingPhotoPath;
 
     // Getters Setters
     public UUID getId() { return id; }

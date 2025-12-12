@@ -20,14 +20,11 @@ public class StartupInfoLogger implements ApplicationListener<ApplicationReadyEv
             contextPath = "";
         }
 
-        // Deteksi LiveReload dari DevTools
         boolean liveReloadEnabled = env.getProperty("spring.devtools.livereload.enabled", Boolean.class, false);
         String liveReloadPort = env.getProperty("spring.devtools.livereload.port", "35729");
 
-        // Ambil host (default localhost)
         String host = env.getProperty("server.address", "localhost");
 
-        // Warna ANSI untuk konsol
         String GREEN = "\u001B[32m";
         String CYAN = "\u001B[36m";
         String YELLOW = "\u001B[33m";

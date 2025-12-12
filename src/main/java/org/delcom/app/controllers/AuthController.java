@@ -1,4 +1,4 @@
-package org.delcom.app.views;
+package org.delcom.app.controllers;
 
 import java.util.List;
 
@@ -32,11 +32,11 @@ import org.springframework.validation.BindingResult;
 
 @Controller
 @RequestMapping("/auth")
-public class AuthView {
+public class AuthController {
 
     private final UserService userService;
 
-    public AuthView(UserService userService, AuthTokenService authTokenService) {
+    public AuthController(UserService userService, AuthTokenService authTokenService) {
         this.userService = userService;
     }
 
@@ -145,7 +145,6 @@ public class AuthView {
             return ConstUtil.TEMPLATE_PAGES_AUTH_REGISTER;
         }
 
-        // 🔥 Kirim pesan sukses pakai Flash Attribute
         redirectAttributes.addFlashAttribute("success", "Akun berhasil dibuat! Silakan login.");
 
         return "redirect:/auth/login";

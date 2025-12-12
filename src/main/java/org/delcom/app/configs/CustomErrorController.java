@@ -5,7 +5,6 @@ import org.springframework.boot.web.error.ErrorAttributeOptions;
 import org.springframework.boot.webmvc.error.ErrorAttributes;
 import org.springframework.boot.webmvc.error.ErrorController;
 import org.springframework.http.HttpStatus;
-import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -31,10 +30,9 @@ public class CustomErrorController implements ErrorController {
         int status = (int) attributes.getOrDefault("status", 500);
         String path = (String) attributes.getOrDefault("path", "unknown");
 
-        // Cek apakah request meminta HTML (Browser)
         String acceptHeader = request.getHeader("Accept");
         if (acceptHeader != null && acceptHeader.contains("text/html")) {
-            ModelAndView modelAndView = new ModelAndView("error"); // Pastikan ada file templates/error.html atau default whitelabel
+            ModelAndView modelAndView = new ModelAndView("error");
             modelAndView.addObject("status", status);
             modelAndView.addObject("error", attributes.getOrDefault("error", "Unknown Error"));
             modelAndView.addObject("message", attributes.getOrDefault("message", "Terjadi kesalahan"));
@@ -43,7 +41,6 @@ public class CustomErrorController implements ErrorController {
             return modelAndView;
         }
 
-        // Jika API (JSON)
         Map<String, Object> body = Map.of(
                 "timestamp", LocalDateTime.now(),
                 "status", status == 500 ? "error" : "fail",

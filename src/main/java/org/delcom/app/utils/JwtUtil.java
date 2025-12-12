@@ -8,8 +8,6 @@ import java.util.UUID;
 import javax.crypto.SecretKey;
 
 public class JwtUtil {
-
-    // Ganti dengan secret key yang lebih aman dan simpan di tempat yang aman
     private static final String SECRET_KEY = "NghR8fQn5O6V2z7VwpvQkDELCOMXoCYQbQZjx3xWUpPfw5i9L8RrGg==";
     private static final long EXPIRATION_TIME = 1000 * 60 * 60 * 2; // 2 jam
     private static final SecretKey key = Keys.hmacShaKeyFor(SECRET_KEY.getBytes());

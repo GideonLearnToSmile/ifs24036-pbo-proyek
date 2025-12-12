@@ -48,10 +48,8 @@ public class HomeView {
             return "redirect:/auth/login";
 
         } catch (Exception e) {
-            // INI AKAN MENCETAK ERROR SEBENARNYA DI TERMINAL
             e.printStackTrace(); 
-            throw e; // Lempar errornya biar tampil di halaman error page
+            throw e;
         }
     }
-    
 }

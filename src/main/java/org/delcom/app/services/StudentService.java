@@ -49,7 +49,6 @@ public class StudentService {
             if (student.getProfilePicture() != null) {
                 fileStorageService.deleteFile(student.getProfilePicture());
             }
-            // Gunakan method khusus storeStudentFile yang ada di kode sebelumnya
             String filename = fileStorageService.storeStudentFile(file, student.getId());
             student.setProfilePicture(filename);
         }
@@ -73,12 +72,10 @@ public class StudentService {
         return studentRepository.countStudentsByMajor(userId);
     }
 
-        // BARU: Untuk HomeView - Total Data
     public long countStudents(UUID userId) {
         return studentRepository.countByUserId(userId);
     }
 
-    // BARU: Untuk HomeView - Data Terbaru (Limit 5)
     public List<Student> getRecentStudents(UUID userId) {
         return studentRepository.findTop5ByUserIdOrderByCreatedAtDesc(userId);
     }
